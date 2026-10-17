@@ -58,3 +58,4 @@ next-env.d.ts
 /site.zip
 /update-content.py
 /starter-page.tsx
+*.tsbuildinfo

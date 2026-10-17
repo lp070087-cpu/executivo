@@ -1,4 +1,5 @@
-export function isAdmin(request: Request) {
- const email = request.headers.get('oai-authenticated-user-email')?.toLowerCase();
- return email === 'ysmingomes29@gmail.com' || (import.meta.env.DEV && email === 'seedy@sites.test');
+export function isAdmin(request:Request){
+ const ids=(process.env.ADMIN_USER_IDS||'').split(',').map(s=>s.trim()).filter(Boolean);
+ const id=request.headers.get('pte-user-id');
+ return !!id&&ids.includes(id)&&request.headers.get('pte-user-email-verified')==='true';
 }

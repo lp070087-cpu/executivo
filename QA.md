@@ -8,3 +8,7 @@ Rodada de 17/10/2026, em ambiente local. Dados fictícios, sem executar transpor
 - Testes de API: autenticação obrigatória; origem inválida bloqueada; pedidos e mensagens de outro usuário invisíveis; tentativa de alterar pedido alheio retorna 404; notas administrativas ausentes da resposta ao cliente; datas, horários, categorias e passageiros inválidos rejeitados; cancelamento repetido retorna 409.
 
 As verificações responsivas usam emulação de tamanho no navegador, não aparelhos físicos. O envio de um pedido registra uma solicitação; a reserva depende da confirmação da equipe.
+
+## Migração para Vercel/Neon
+
+A verificação acima corresponde à versão anterior no Cloudflare/Sites. A nova versão Next.js tem compilação de produção validada, incluindo routes-manifest.json, e teste de instalação npm ci em modo dry-run. As APIs foram adaptadas para sessão Neon Auth e PostgreSQL. O teste de APIs sem sessão cobre a proteção contra cabeçalhos de identidade forjados e origens externas. Cadastro real, envio de e-mail e operações no Neon precisam ser validados após a configuração das variáveis e execução da migração SQL.

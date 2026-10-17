@@ -1,4 +1,8 @@
+import {authenticated} from '../../lib/auth/handler';
+export const dynamic='force-dynamic';
 import { isAdmin } from '../../lib/admin';
 import { adminHtml } from '../../lib/admin-v2';
-export async function GET(request:Request){if(!isAdmin(request))return new Response('<!doctype html><html lang="pt-BR"><meta charset="utf-8"><title>Acesso restrito — PTE</title><body style="background:#101112;color:#eee;font:16px Arial;padding:10%"><h1>Área administrativa</h1><p>Esta área está disponível apenas para a conta autorizada da PTE.</p><a style="color:white" href="/signin-with-chatgpt?return_to=/admin" target="_top">Entrar com a conta autorizada</a><p><a style="color:#aaa" href="/">Voltar ao site</a></p></body></html>',{status:403,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}});return new Response(adminHtml,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}})}
+async function handleGET(request:Request){if(!isAdmin(request))return new Response('<!doctype html><html lang="pt-BR"><meta charset="utf-8"><title>Acesso restrito — PTE</title><body style="background:#101112;color:#eee;font:16px Arial;padding:10%"><h1>Área administrativa</h1><p>Esta área está disponível apenas para a conta autorizada da PTE.</p><a style="color:white" href="/auth/sign-in?return_to=/admin" target="_top">Entrar com a conta autorizada</a><p><a style="color:#aaa" href="/">Voltar ao site</a></p></body></html>',{status:403,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}});return new Response(adminHtml,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}})}
 
+
+export const GET=authenticated(handleGET);
