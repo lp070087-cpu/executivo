@@ -10,3 +10,18 @@
 @media(max-width:900px){.watermark{top:-85px}}@media(max-width:600px){.watermark{top:-60px;color:rgba(255,255,255,.045)}}
 
 @media(max-width:600px){.service-card-ready:not(.service-card-in){opacity:0;transform:translateY(35px)}.service-card-in{animation:service-arrival .75s cubic-bezier(.16,.75,.25,1) backwards}}@media(prefers-reduced-motion:reduce){.service-card-ready{opacity:1;transform:none;animation:none!important}}
+
+/* Fade only the banner lighting into the surrounding page. */
+.hero{background:none;isolation:isolate}
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:radial-gradient(ellipse at 75% 55%,#35383b66,transparent 55%);
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 18%,#000 72%,transparent),linear-gradient(to bottom,transparent,#000 16%,#000 68%,transparent);
+  mask-image:linear-gradient(to right,transparent,#000 18%,#000 72%,transparent),linear-gradient(to bottom,transparent,#000 16%,#000 68%,transparent);
+  -webkit-mask-composite:source-in;
+  mask-composite:intersect;
+}
