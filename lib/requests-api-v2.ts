@@ -20,7 +20,7 @@ export async function POST(request:Request){
  env.DB!.prepare('INSERT INTO request_events (id,request_id,description,created_at) VALUES (?,?,?,?)').bind(crypto.randomUUID(),id,'Solicitação recebida pelo site',now)]);
  return json({id,protocol:'PTE-'+id.slice(0,8).toUpperCase()},201)
 }
-export async function GET(request:Request){if(!isAdmin(request))return json({error:'Acesso restrito à administração.'},403);const rows=await env.DB!.prepare('SELECT * FROM requests ORDER BY created_at DESC LIMIT 500').all();const events=await env.DB!.prepare('SELECT * FROM request_events WHERE request_id IN (SELECT id FROM requests ORDER BY created_at DESC LIMIT 500) ORDER BY created_at DESC').all();return json({requests:rows.results,events:events.results})}
+export async function GET(request:Request){if(!isAdmin(request))return json({error:'Acesso restrito à administração.'},403);const rows=await env.DB!.prepare('SELECT * FROM requests ORDER BY created_at DESC LIMIT 500').all();const events=await env.DB!.prepare('SELECT * FROM request_events WHERE request_id IN (SELECT id FROM requests ORDER BY created_at DESC LIMIT 500) ORDER BY created_at DESC').all();const messages=await env.DB!.prepare('SELECT * FROM request_messages WHERE request_id IN (SELECT id FROM requests ORDER BY created_at DESC LIMIT 500) ORDER BY created_at ASC').all();return json({requests:rows.results,events:events.results,messages:messages.results})}
 export async function PATCH(request:Request){
  if(!isAdmin(request))return json({error:'Acesso restrito.'},403);if(request.headers.get('origin')!==new URL(request.url).origin)return json({error:'Origem inválida.'},403);
  let body:any;try{body=await bodyOf(request)}catch{return json({error:'Dados inválidos.'},400)}
